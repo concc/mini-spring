@@ -3,30 +3,66 @@ package com.minis.context;
 
 import com.minis.core.ClassPathXmlResource;
 import com.minis.core.Resource;
-import com.minis.core.SimpleBeanFactory;
 import com.minis.core.XmlBeanDefinitionRender;
 import com.minis.core.even.ApplicationEvent;
 import com.minis.core.even.ApplicationEventPublisher;
 import com.minis.core.exception.BeansException;
 import com.minis.core.factory.BeanFactory;
+import com.minis.factory.AutowireCapableBeanFactory;
+import com.minis.process.AutowiredAnnotationBeanPostProcess;
+import com.minis.process.BeanPostProcessor;
+
+import java.util.List;
 
 public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationEventPublisher {
 
-    SimpleBeanFactory beanFactory;
+    AutowireCapableBeanFactory beanFactory;
+
+    List<BeanPostProcessor> beanFactoryPostProcessors;
 
     public ClassPathXmlApplicationContext(String fileName) {
         this(fileName, true);
     }
+
+
     public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) {
         Resource resource = new ClassPathXmlResource(fileName);
-        SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
-        XmlBeanDefinitionRender reader = new XmlBeanDefinitionRender(simpleBeanFactory);
+        AutowireCapableBeanFactory beanFactory = new AutowireCapableBeanFactory();
+        XmlBeanDefinitionRender reader = new XmlBeanDefinitionRender(beanFactory);
         reader.loadBeanDefinitions(resource);
-        this.beanFactory = simpleBeanFactory;
-        if (!isRefresh) {
-            this.beanFactory.refresh();
+        this.beanFactory = beanFactory;
+        if (isRefresh) {
+            try {
+                refresh();
+            } catch (BeansException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    public List<BeanPostProcessor> getBeanFactoryPostProcessors() {
+        return this.beanFactoryPostProcessors;
+    }
+
+    public void addBeanFactoryPostProcessor(BeanPostProcessor postProcessor) {
+        this.beanFactoryPostProcessors.add(postProcessor);
+    }
+
+    public void refresh() throws BeansException, IllegalStateException {
+        // Register bean processors that intercept bean creation.
+        registerBeanPostProcessors(this.beanFactory);
+        // Initialize other special beans in specific context subclasses.
+        onRefresh();
+    }
+
+    private void registerBeanPostProcessors(AutowireCapableBeanFactory beanFactory) {
+        beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcess());
+    }
+
+    private void onRefresh() {
+        this.beanFactory.refresh();
+    }
+
 
     @Override
     public Object getBean(String beanName) throws BeansException {

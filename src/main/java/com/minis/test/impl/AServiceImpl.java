@@ -1,7 +1,7 @@
 package com.minis.test.impl;
 
 import com.minis.test.AService;
-import com.minis.test.BaseService;
+import com.minis.test.annotation.BaseService;
 
 public class AServiceImpl implements AService {
     private String name;

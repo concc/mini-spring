@@ -5,6 +5,8 @@ import com.minis.beans.inject.ArgumentValue;
 import com.minis.beans.inject.ArgumentValues;
 import com.minis.beans.inject.PropertyValue;
 import com.minis.beans.inject.PropertyValues;
+import com.minis.core.factory.BeanFactory;
+import com.minis.factory.AbstractBeanFactory;
 import org.dom4j.Element;
 
 import java.util.ArrayList;
@@ -12,10 +14,10 @@ import java.util.List;
 
 public class XmlBeanDefinitionRender {
 
-    SimpleBeanFactory simpleBeanFactory;
+    AbstractBeanFactory beanFactory;
 
-    public XmlBeanDefinitionRender(SimpleBeanFactory simpleBeanFactory) {
-        this.simpleBeanFactory = simpleBeanFactory;
+    public XmlBeanDefinitionRender(AbstractBeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
     }
 
 
@@ -62,7 +64,7 @@ public class XmlBeanDefinitionRender {
 
             String[] refArray = refs.toArray(new String[0]);
             beanDefinition.setDependsOn(refArray);
-            this.simpleBeanFactory.registerBeanDefinition(beanID, beanDefinition);
+            this.beanFactory.registerBeanDefinition(beanID, beanDefinition);
         }
     }
 }

@@ -39,7 +39,7 @@ public class BeanDefinition {
     }
 
     public boolean isLazyInit() {
-        return lazyInit;
+        return true;
     }
 
     public void setLazyInit(boolean lazyInit) {
