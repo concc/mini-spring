@@ -1,11 +1,14 @@
 package com.minis.test;
 
 
-import com.minis.web.Controller;
-import com.minis.web.RequestMapping;
+import com.minis.web.annoation.Controller;
+import com.minis.web.annoation.RequestMapping;
 
 @Controller
 public class HelloWorldBean {
+
+    public HelloWorldBean() {
+    }
 
     @RequestMapping("/test1")
     public String doTest1() {

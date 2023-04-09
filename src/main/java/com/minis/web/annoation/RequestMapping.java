@@ -1,4 +1,4 @@
-package com.minis.web;
+package com.minis.web.annoation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

@@ -2,6 +2,8 @@ package com.minis.web;
 
 import com.minis.beans.BeansException;
 import com.minis.beans.factory.annotation.Autowired;
+import com.minis.web.annoation.Controller;
+import com.minis.web.annoation.RequestMapping;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
