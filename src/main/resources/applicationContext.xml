@@ -16,5 +16,10 @@
 	<bean id="webBindingInitializer" class="com.minis.test.DateInitializer">
 	</bean>
 
+	<bean id="realaction" class="com.minis.test.Action1" />
+
+	<bean id="action" class="com.minis.aop.ProxyFactoryBean" >
+		<property type="java.lang.Object" name="target" ref="realaction"/>
+	</bean>
 	
 </beans>

@@ -12,12 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.minis.beans.BeansException;
 import com.minis.beans.PropertyValue;
 import com.minis.beans.PropertyValues;
+import com.minis.beans.factory.FactoryBean;
 import com.minis.beans.factory.config.BeanDefinition;
 import com.minis.beans.factory.config.ConfigurableBeanFactory;
 import com.minis.beans.factory.config.ConstructorArgumentValue;
 import com.minis.beans.factory.config.ConstructorArgumentValues;
 
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory,BeanDefinitionRegistry{
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory,BeanDefinitionRegistry{
     protected Map<String,BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);
     protected List<String> beanDefinitionNames=new ArrayList<>();
 	private final Map<String, Object> earlySingletonObjects = new HashMap<String, Object>(16);
@@ -62,14 +63,30 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 				else {
 					return null;
 				}
-			}
+			}else {
 
+			}
 		}
 //        if (singleton == null) {
 //        	throw new BeansException("bean is null.");
 //        }
+		if (singleton instanceof FactoryBean) {
+			return getObjectForBeanInstance(singleton, beanName);
+		}
 		return singleton;
 	}
+
+	protected Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+		// Now we have the bean instance, which may be a normal bean or a FactoryBean.
+		if (!(beanInstance instanceof FactoryBean)) {
+			return beanInstance;
+		}
+		Object object = null;
+		FactoryBean<?> factory = (FactoryBean<?>) beanInstance;
+		object = getObjectFromFactoryBean(factory, beanName);
+		return object;
+	}
+
     
     private void invokeInitMethod(BeanDefinition bd, Object obj) {
     	Class<?> clz = bd.getClass();

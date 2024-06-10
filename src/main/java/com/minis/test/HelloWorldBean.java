@@ -1,11 +1,15 @@
 package com.minis.test;
 
 
+import com.minis.beans.factory.annotation.Autowired;
 import com.minis.web.annoation.Controller;
 import com.minis.web.annoation.RequestMapping;
 
 @Controller
 public class HelloWorldBean {
+
+    @Autowired
+    IAction action;
 
     public HelloWorldBean() {
     }
@@ -18,6 +22,12 @@ public class HelloWorldBean {
     @RequestMapping("/test2")
     public String doTest2() {
         return "test 2, hello world!";
+    }
+
+    @RequestMapping("/testaop")
+    public String doTestAop() {
+        action.doAction();
+        return "1111";
     }
 
 }
