@@ -84,7 +84,14 @@ public class ProxyFactoryBean implements FactoryBean<Object>, BeanFactoryAware {
         }catch (BeansException e) {
             e.printStackTrace();
         }
+        if (advice instanceof BeforeAdvice) {
+            mi = new MethodBeforeAdviceInterceptor((MethodBeforeAdvice)advice);
+        } else if (advice instanceof AfterAdvice) {
+            mi = new AfterReturningAdviceInterceptor((AfterReturningAdvice)advice);
+        } else if (advice instanceof MethodInterceptor) {
+            mi = (MethodInterceptor)advice;
+        }
         advisor = new DefaultAdvisor();
-        advisor.setMethodInterceptor((MethodInterceptor) advice);
+        advisor.setMethodInterceptor(mi);
     }
 }

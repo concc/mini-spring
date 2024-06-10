@@ -46,7 +46,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				System.out.println("get bean null -------------- " + beanName);
 				BeanDefinition bd = beanDefinitionMap.get(beanName);
 				if (bd != null) {
-					singleton=createBean(bd);
+					singleton = createBean(bd);
 					this.registerBean(beanName, singleton);
 
 					if (singleton instanceof BeanFactoryAware) {
