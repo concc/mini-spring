@@ -11,7 +11,8 @@ public class HelloWorldBean {
     }
 
     @RequestMapping("/test1")
-    public String doTest1() {
+    public String doTest1(UserVo userVo) {
+        System.out.println("receive number : " + userVo.getId());
         return "test 1, hello world!";
     }
     @RequestMapping("/test2")

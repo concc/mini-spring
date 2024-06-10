@@ -25,7 +25,7 @@ public class WebDataBinder {
     }
 
     public void bind(HttpServletRequest request) {
-        PropertyValues mpvs = assignParamters(request);
+        PropertyValues mpvs = assignParameters(request);
         addBindValues(mpvs, request);
         doBind(mpvs);
     }
@@ -51,7 +51,7 @@ public class WebDataBinder {
         getPropertyAccessor().registerCustomEditor(requiredType, propertyEditor);
     }
 
-    private PropertyValues assignParamters(HttpServletRequest request) {
+    private PropertyValues assignParameters(HttpServletRequest request) {
         Map<String, Object> map = WebUtils.getParametersStartingWith(request, "");
         return new PropertyValues(map);
     }

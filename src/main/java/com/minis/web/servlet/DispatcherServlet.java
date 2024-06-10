@@ -67,7 +67,7 @@ public class DispatcherServlet extends HttpServlet {
     	initController();
     	
 		initHandlerMappings(this.webApplicationContext);
-		initHandlerAdapters(this.webApplicationContext);
+		initHandlerAdapters(this.parentApplicationContext);
 		initViewResolvers(this.webApplicationContext);
     }
     

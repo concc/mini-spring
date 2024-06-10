@@ -13,5 +13,8 @@
 	<bean id="baseservice" class="com.minis.test.BaseService"> 
 	</bean>
 
+	<bean id="webBindingInitializer" class="com.minis.test.DateInitializer">
+	</bean>
+
 	
 </beans>

@@ -32,13 +32,13 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter {
         handleInternal(request, response, (HandlerMethod) handler);
     }
 
-    private void handleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handler) throws InstantiationException, IllegalAccessException {
+    private void handleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handler) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         WebDataBinderFactory binderFactory = new WebDataBinderFactory();
         Parameter[] parameters = handler.getMethod().getParameters();
         Object[] methodParamObjs = new Object[parameters.length];
         int i = 0;
         for (Parameter parameter : parameters) {
-            Object methodParamObj = parameter.getType().newInstance();
+            Object methodParamObj = parameter.getType().getConstructor().newInstance();
             WebDataBinder wdb = binderFactory.createBinder(request, methodParamObj, parameter.getName());
             wdb.bind(request);
             methodParamObjs[i] = methodParamObj;

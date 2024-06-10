@@ -19,6 +19,7 @@ public class BeanWrapperImpl extends AbstractPropertyAccessor{
 
     public BeanWrapperImpl(Object object) {
         super();
+        registerDefaultEditors(); //不同数据类型的参数转换器editor
         this.wrappedObject = object;
         this.clz = object.getClass();
     }
@@ -56,7 +57,7 @@ public class BeanWrapperImpl extends AbstractPropertyAccessor{
 
                 Field field = clz.getDeclaredField(propertyName);
                 propertyClz = field.getType();
-                this.writeMethod = clz.getDeclaredMethod("set" + propertyName.substring(0,1).toLowerCase() + propertyName.substring(1), propertyClz);
+                this.writeMethod = clz.getDeclaredMethod("set" + propertyName.substring(0,1).toUpperCase() + propertyName.substring(1), propertyClz);
                 this.readMethod = clz.getDeclaredMethod("get"+propertyName.substring(0,1).toUpperCase()+propertyName.substring(1));
             }catch (Exception e) {
                 e.printStackTrace();
