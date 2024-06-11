@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.minis.aop.BeanNameAutoProxyCreator;
 import com.minis.beans.BeansException;
 import com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import com.minis.beans.factory.config.AbstractAutowireCapableBeanFactory;
@@ -64,6 +65,12 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext{
 	@Override
 	public void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
 		this.beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
+		try {
+			this.beanFactory.addBeanPostProcessor((BeanPostProcessor)(this.beanFactory.getBean("autoProxyCreator")));
+		} catch (BeansException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

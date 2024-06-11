@@ -9,7 +9,10 @@ import com.minis.web.annoation.RequestMapping;
 public class HelloWorldBean {
 
     @Autowired
-    IAction action;
+    IAction action1;
+
+    @Autowired
+    IAction action2;
 
     public HelloWorldBean() {
     }
@@ -26,8 +29,14 @@ public class HelloWorldBean {
 
     @RequestMapping("/testaop")
     public String doTestAop() {
-        action.doAction();
+        action1.doAction();
         return "1111";
+    }
+
+    @RequestMapping("/testaop2")
+    public String doTestAop2() {
+        action2.doSome();
+        return "222";
     }
 
 }
