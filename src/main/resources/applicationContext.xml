@@ -19,13 +19,23 @@
 	<bean id="myInterceptor" class="com.minis.test.TracingInterceptor" />
 
 <!--	<bean id="myBeforeAdvice" class="com.minis.test.MyBeforeAdvice" />-->
-	<bean id="myAfterAdvice" class="com.minis.test.MyAfterAdvice" />
+<!--	<bean id="myAfterAdvice" class="com.minis.test.MyAfterAdvice" />-->
 
 	<bean id="realaction" class="com.minis.test.Action1" />
+
+	<bena id="beforeAdvice" class="com.minis.test.MyBeforeAdvice" />
+
+	<bean id="advisor" class="com.minis.aop.NameMatchMethodPointcutAdvisor">
+		<property type="com.minis.aop.Advice" name="advice" ref="beforeAdvice"/>
+		<property type="String" name="mappedName" value="do*"/>
+	</bean>
+
+
+
 	<bean id="action" class="com.minis.aop.ProxyFactoryBean" >
 		<property type="java.lang.Object" name="target" ref="realaction"/>
 <!--		<property type="String" name="interceptorName" value="myInterceptor"/>-->
-		<property type="String" name="interceptorName" value="myAfterAdvice"/>
+		<property type="String" name="interceptorName" value="advisor"/>
 	</bean>
 	
 </beans>
